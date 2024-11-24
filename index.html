@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Pixel Data Extractor</title>
+  <style>
+    body {
+      background-color: #111111;
+    }
+
+    h1 {
+      font-size: 75px;
+      width: 200%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="imageCanvas"></canvas>
+  
+  <h1 id="display"></h1>
+
+  <script>
+    const canvas = document.querySelector("#imageCanvas");
+    const context = canvas.getContext('2d');
+
+    const img = new Image();
+    img.src = "Rgb_Code.png";
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      context.drawImage(img, 0, 0);
+    };
+
+    canvas.addEventListener('click', event => {
+      const pixel = context.getImageData(event.offsetX, event.offsetY, 1 ,1).data;
+      const h1 = document.querySelector("#display");
+      h1.innerText = `RGB: (${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+      if(pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 0) {
+        h1.style.color = 'white'; 
+      } else {
+        h1.style.color = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+      }
+    });
+  </script>
+</body>
+</html>
